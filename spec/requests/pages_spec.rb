@@ -67,18 +67,37 @@ RSpec.describe "Pages", type: :request do
       expect(response).to have_http_status(:not_found)
     end
 
-    it "is visible to a recruiter" do
+    it "serves the placeholder PDF to a recruiter when no résumé is attached" do
       sign_in(users(:recruiter))
       get cv_path
 
       expect(response).to have_http_status(:ok)
+      expect(response.content_type).to include("application/pdf")
+      expect(response.body).to eq(PagesController::PLACEHOLDER_CV.read(mode: "rb"))
     end
 
-    it "is visible to an admin" do
+    it "serves the placeholder PDF to an admin when no résumé is attached" do
       sign_in(users(:admin))
       get cv_path
 
       expect(response).to have_http_status(:ok)
+      expect(response.content_type).to include("application/pdf")
+    end
+
+    it "serves the attached résumé instead of the placeholder once one exists" do
+      cv = Cv.create!
+      cv.resume.attach(
+        io: StringIO.new("%PDF-1.4 fake attached resume"),
+        filename: "resume.pdf",
+        content_type: "application/pdf"
+      )
+      sign_in(users(:admin))
+
+      get cv_path
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to eq("%PDF-1.4 fake attached resume")
+      expect(response.body).not_to eq(PagesController::PLACEHOLDER_CV.read(mode: "rb"))
     end
   end
 end

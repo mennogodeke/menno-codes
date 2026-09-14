@@ -1,6 +1,6 @@
 <%= form_with model: user do |form| %>
   <% if user.errors.any? %>
-    <div>
+    <div class="form-errors">
       <p><%= pluralize(user.errors.count, "error") %> prevented this user from being saved:</p>
       <ul>
         <% user.errors.each do |error| %>
@@ -10,23 +10,23 @@
     </div>
   <% end %>
 
-  <p>
-    <%= form.label :username %><br>
+  <p class="field">
+    <%= form.label :username, class: "field__label" %>
     <%= form.text_field :username %>
   </p>
 
-  <p>
-    <%= form.label :password, user.new_record? ? "Password" : "New password (leave blank to keep current)" %><br>
+  <p class="field">
+    <%= form.label :password, user.new_record? ? "Password" : "New password (leave blank to keep current)", class: "field__label" %>
     <%= form.password_field :password, autocomplete: "new-password" %>
   </p>
 
-  <p>
-    <%= form.label :role %><br>
+  <p class="field">
+    <%= form.label :role, class: "field__label" %>
     <%= form.select :role, User.roles.keys %>
   </p>
 
-  <p>
-    <%= form.label :email, "Email (optional)" %><br>
+  <p class="field">
+    <%= form.label :email, "Email (optional)", class: "field__label" %>
     <%= form.email_field :email %>
   </p>
 

@@ -49,6 +49,8 @@ main :is(h2, h3, h4) { margin: 1.5em 0 0.5em; }
 main :is(h2, h3, h4):first-child { margin-top: 0; }
 main p { margin: 0 0 1em; }
 main p:last-child { margin-bottom: 0; }
+main ul { margin: 0 0 1em; padding-left: 1.4em; }
+main li + li { margin-top: 0.3em; }
 
 /* ---------- shared layout ---------- */
 .page {
@@ -107,6 +109,67 @@ main p:last-child { margin-bottom: 0; }
   cursor: pointer;
 }
 .site-footer__signout:hover { text-decoration: underline; }
+
+/* ---------- forms ---------- */
+.field { display: block; margin: 0 0 1em; }
+.field__label {
+  display: block;
+  margin-bottom: 0.35em;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select {
+  width: 100%;
+  max-width: 24rem;
+  padding: 0.5em 0.6em;
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+input::placeholder { color: var(--ink-faint); }
+
+/* Only `form.submit` (renders <input type="submit">) — not `button_to`'s
+ * <button type="submit">, which powers the footer's Sign out and the users
+ * index's Delete, both meant to look like plain secondary actions, not a
+ * primary CTA. */
+input[type="submit"] {
+  padding: 0.55em 1.1em;
+  font: inherit;
+  font-weight: 600;
+  color: var(--bg);
+  background: var(--accent);
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+input[type="submit"]:hover {
+  opacity: 0.9;
+}
+
+.form-errors {
+  margin: 0 0 1em;
+  padding: 0.75em 1em;
+  color: #ffb4ab;
+  background: #3a1512;
+  border-radius: 6px;
+}
+.form-errors p { margin: 0; }
+.form-errors ul { margin: 0.4em 0 0; padding-left: 1.2em; }
+
+.flash {
+  margin: 0 0 1em;
+  padding: 0.6em 0.9em;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+.flash--alert { color: #ffb4ab; background: #3a1512; }
+.flash--notice { color: #7fdca0; background: #10301d; }
 
 /* Figlet wordmark. The ASCII is ~94 cols wide, so it's sized off the column
  * width (container query) and never allowed past 11px — it scales down to fit

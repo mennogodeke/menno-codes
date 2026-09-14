@@ -46,6 +46,10 @@ Rails.application.configure do
   # Replace the default in-process memory cache store with a durable alternative.
   config.cache_store = :solid_cache_store
 
+  # Store uploaded files on the local persistent volume Kamal mounts at
+  # storage/ (see config/deploy.yml) — no external object storage needed.
+  config.active_storage.service = :local
+
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
