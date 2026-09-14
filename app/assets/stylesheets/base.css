@@ -1,0 +1,146 @@
+/* base.css — reset, retro tokens, shared layout, a11y.
+ * Retro is the only theme (no switcher), so these are the sole :root tokens —
+ * no [data-theme="retro"] attribute scoping needed. Ported/trimmed from
+ * menno-codes-v1's base.css + themes/retro.css. */
+
+/* ---------- reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body { min-height: 100vh; }
+img, picture, svg, video { display: block; max-width: 100%; }
+a { color: inherit; }
+
+/* ---------- tokens: retro (Omarchy Retro-82, dark only) ---------- */
+:root {
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, "Liberation Mono", monospace;
+  --font: var(--mono);
+
+  --bg: #05182e;
+  --surface: #0d2742;
+  --ink: #f6dcac;
+  --ink-soft: #6fa39d;
+  --ink-faint: #4c7a75;
+  --rule: #134e5a;
+  --divider: #0e2e3a;
+  --link: #8cbfb8;
+  --accent: #faa968;
+  --nav-active: #faa968;
+  --code-bg: #0d2742;
+
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ---------- shared layout ---------- */
+.page {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 44px 24px 40px;
+}
+
+.rule-soft {
+  border: 0;
+  border-top: 1px solid var(--divider);
+  margin: 22px 0;
+}
+
+.menu {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 0.9rem;
+}
+.menu__link { color: var(--link); }
+.menu__link[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--nav-active);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+.menu__sep { color: var(--ink-faint); }
+.menu__ext { color: var(--ink-faint); }
+
+.site-footer {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 18px 24px 40px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  align-items: center;
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+.site-footer__source { margin-left: auto; color: var(--ink-soft); text-decoration: none; }
+.site-footer__source:hover { text-decoration: underline; }
+
+/* Figlet wordmark. The ASCII is ~94 cols wide, so it's sized off the column
+ * width (container query) and never allowed past 11px — it scales down to fit
+ * instead of scrolling. Below 34rem the one-liner is swapped for the stacked
+ * MENNO / .CODES (each ~48 cols, so it can run a little larger). */
+.wordmark { container-type: inline-size; overflow-x: auto; overflow-y: hidden; color: var(--accent); }
+.wordmark__full, .wordmark__top, .wordmark__bottom {
+  margin: 0;
+  line-height: 1.05;
+}
+.wordmark__full { font-size: min(10px, 1.5cqw); }
+.wordmark__top, .wordmark__bottom { display: none; font-size: min(12px, 2.9cqw); }
+@media (max-width: 34rem) {
+  .wordmark__full { display: none; }
+  .wordmark__top, .wordmark__bottom { display: block; }
+}
+
+/* ---------- a11y ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -3rem;
+  z-index: 10;
+  padding: 8px 14px;
+  font: inherit;
+  color: var(--link);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+.skip-link:focus { top: 8px; }
+
+:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

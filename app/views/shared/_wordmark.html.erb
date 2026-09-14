@@ -1,0 +1,30 @@
+<%# ASCII wordmark ("ANSI Shadow" FIGfont). No figlet binary on the deploy box,
+    so this is pasted, static markup rather than generated at runtime.
+    "ANSI Shadow" isn't one of figlet's bundled fonts — grab ANSI Shadow.flf
+    (e.g. from the "figlet" npm package's fonts/ dir) and pass its folder via
+    -d. Regenerate with (-w wide enough to avoid wrapping):
+      figlet -d <fontdir> -f "ANSI Shadow" -w 200 "menno.codes"   # wordmark__full
+      figlet -d <fontdir> -f "ANSI Shadow" -w 200 "menno"         # wordmark__top
+      figlet -d <fontdir> -f "ANSI Shadow" -w 200 ".codes"        # wordmark__bottom
+    CSS (container query on .wordmark) picks full vs. stacked by width. %>
+<div class="wordmark" aria-hidden="true">
+<pre class="wordmark__full">███╗   ███╗███████╗███╗   ██╗███╗   ██╗ ██████╗     ██████╗ ██████╗ ██████╗ ███████╗███████╗
+████╗ ████║██╔════╝████╗  ██║████╗  ██║██╔═══██╗   ██╔════╝██╔═══██╗██╔══██╗██╔════╝██╔════╝
+██╔████╔██║█████╗  ██╔██╗ ██║██╔██╗ ██║██║   ██║   ██║     ██║   ██║██║  ██║█████╗  ███████╗
+██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║╚██╗██║██║   ██║   ██║     ██║   ██║██║  ██║██╔══╝  ╚════██║
+██║ ╚═╝ ██║███████╗██║ ╚████║██║ ╚████║╚██████╔╝██╗╚██████╗╚██████╔╝██████╔╝███████╗███████║
+╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚══════╝</pre>
+<pre class="wordmark__top">███╗   ███╗███████╗███╗   ██╗███╗   ██╗ ██████╗
+████╗ ████║██╔════╝████╗  ██║████╗  ██║██╔═══██╗
+██╔████╔██║█████╗  ██╔██╗ ██║██╔██╗ ██║██║   ██║
+██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║╚██╗██║██║   ██║
+██║ ╚═╝ ██║███████╗██║ ╚████║██║ ╚████║╚██████╔╝
+╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝  ╚═══╝ ╚═════╝</pre>
+<pre class="wordmark__bottom">    ██████╗ ██████╗ ██████╗ ███████╗███████╗
+   ██╔════╝██╔═══██╗██╔══██╗██╔════╝██╔════╝
+   ██║     ██║   ██║██║  ██║█████╗  ███████╗
+   ██║     ██║   ██║██║  ██║██╔══╝  ╚════██║
+██╗╚██████╗╚██████╔╝██████╔╝███████╗███████║
+╚═╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚══════╝</pre>
+</div>
+<h1 class="sr-only">menno.codes</h1>

@@ -1,18 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" data-theme="retro">
   <head>
-    <title><%= content_for(:title) || "Menno Codes" %></title>
+    <title><%= page_title %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Menno Codes">
+    <meta name="application-name" content="menno.codes">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
@@ -24,6 +21,26 @@
   </head>
 
   <body>
-    <%= yield %>
+    <a class="skip-link" href="#content">Skip to content</a>
+
+    <main id="content" class="page">
+      <%= render "shared/wordmark" %>
+
+      <hr class="rule-soft">
+      <nav class="menu" aria-label="Primary">
+        <% nav_items.each_with_index do |item, i| %>
+          <% if i.positive? %><span class="menu__sep" aria-hidden="true">·</span><% end %>
+          <%= nav_link(item) %>
+        <% end %>
+      </nav>
+      <hr class="rule-soft">
+
+      <%= yield %>
+    </main>
+
+    <%# TODO: auth-state footer (My page / Sign out) once /users/:id lands. %>
+    <footer class="site-footer">
+      <a class="site-footer__source" href="https://github.com/mennogodeke">Source</a>
+    </footer>
   </body>
 </html>
