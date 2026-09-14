@@ -1,3 +1,7 @@
-<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="256" cy="256" r="256" fill="red"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="menno.codes">
+  <rect width="64" height="64" rx="14" fill="#05182e"/>
+  <path d="M13 47 V31 C13 24 25 24 25 31 V47 M25 31 C25 24 37 24 37 31 V47"
+        fill="none" stroke="#f6dcac" stroke-width="7"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="50" cy="44" r="6" fill="#faa968"/>
 </svg>
