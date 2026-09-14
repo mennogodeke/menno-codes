@@ -53,4 +53,26 @@ RSpec.describe User, type: :model do
       expect(User.new(username: "carol", password: "supersecret123")).to be_valid
     end
   end
+
+  describe "role" do
+    it "defaults to friend" do
+      user = User.create!(username: "bob", password: "supersecret123")
+      expect(user).to be_friend
+    end
+
+    it "exposes admin?/recruiter?/friend? predicates" do
+      admin = User.create!(username: "bob", password: "supersecret123", role: :admin)
+      recruiter = User.create!(username: "carol", password: "supersecret123", role: :recruiter)
+
+      expect(admin).to be_admin
+      expect(recruiter).to be_recruiter
+    end
+
+    it "rejects an unknown role" do
+      # `validate: true` on the enum trades the default instant ArgumentError
+      # for a normal validation failure — so an unknown value is invalid, not
+      # a raise, on assignment.
+      expect(User.new(username: "bob", password: "supersecret123", role: "ceo")).not_to be_valid
+    end
+  end
 end

@@ -1,6 +1,12 @@
 require "rails_helper"
 
 RSpec.describe "Pages", type: :request do
+  fixtures :users
+
+  def sign_in(user, password: "password")
+    post session_path, params: { username: user.username, password: }
+  end
+
   describe "GET /" do
     it "renders the home page without requiring authentication" do
       get root_path
@@ -27,6 +33,35 @@ RSpec.describe "Pages", type: :request do
       expect(response.body).to include(">Home</a>")
       expect(response.body).to include('href="/about"')
       expect(response.body).to include('aria-current="page"')
+    end
+  end
+
+  describe "GET /cv" do
+    it "redirects an anonymous visitor to sign in" do
+      get cv_path
+
+      expect(response).to redirect_to(new_session_path)
+    end
+
+    it "404s for a signed-in friend — access isn't revealed" do
+      sign_in(users(:alice))
+      get cv_path
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it "is visible to a recruiter" do
+      sign_in(users(:recruiter))
+      get cv_path
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "is visible to an admin" do
+      sign_in(users(:admin))
+      get cv_path
+
+      expect(response).to have_http_status(:ok)
     end
   end
 end

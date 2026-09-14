@@ -2,6 +2,11 @@ class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
 
+  # friend    — a private page at /users/:id (self-or-admin only).
+  # recruiter — the résumé at /cv (also open to admin).
+  # admin     — me: everything.
+  enum :role, { admin: 0, recruiter: 1, friend: 2 }, default: :friend, validate: true
+
   # Plain login handle — no email. Accounts are admin-created (no signup), so a
   # short slug is friendlier than an address.
   normalizes :username, with: ->(u) { u.strip.downcase }

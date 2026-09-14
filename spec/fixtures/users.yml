@@ -5,3 +5,17 @@
 alice:
   username: alice
   password_digest: <%= password_digest %>
+
+admin:
+  username: admin
+  password_digest: <%= password_digest %>
+  role: 0
+
+recruiter:
+  username: recruiter
+  password_digest: <%= password_digest %>
+  role: 1
+
+dave:
+  username: dave
+  password_digest: <%= password_digest %>
