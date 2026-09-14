@@ -1,0 +1,9 @@
+nl:
+  nav:
+    home: "Home"
+    about: "Over mij"
+  footer:
+    source: "Broncode"
+    sign_in: "Inloggen"
+    my_page: "Mijn pagina"
+    sign_out: "Uitloggen"

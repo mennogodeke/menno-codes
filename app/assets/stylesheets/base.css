@@ -95,6 +95,11 @@ main li + li { margin-top: 0.3em; }
   font-size: 0.8125rem;
   color: var(--ink-soft);
 }
+.switcher { display: flex; gap: 9px; align-items: center; }
+.switcher__opt { color: var(--link); text-decoration: none; }
+.switcher__opt:hover { text-decoration: underline; }
+.switcher__opt.is-active { color: var(--ink); font-weight: 600; }
+
 .site-footer__source { margin-left: auto; color: var(--ink-soft); text-decoration: none; }
 .site-footer__source:hover { text-decoration: underline; }
 .site-footer__auth { display: flex; gap: 6px; align-items: baseline; color: var(--ink-faint); }

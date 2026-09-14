@@ -1,0 +1,9 @@
+de:
+  nav:
+    home: "Home"
+    about: "Über mich"
+  footer:
+    source: "Quellcode"
+    sign_in: "Anmelden"
+    my_page: "Meine Seite"
+    sign_out: "Abmelden"

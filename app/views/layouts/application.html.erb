@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="retro">
+<html lang="<%= I18n.locale %>" data-theme="retro">
   <head>
     <title><%= page_title %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -39,15 +39,23 @@
     </main>
 
     <footer class="site-footer">
-      <a class="site-footer__source" href="https://github.com/mennogodeke">Source</a>
+      <% if locale_switcher? %>
+        <span class="switcher">
+          <% NavigationHelper::LOCALES.each do |locale| %>
+            <%= locale_switch_link(locale) %>
+          <% end %>
+        </span>
+      <% end %>
+
+      <a class="site-footer__source" href="https://github.com/mennogodeke"><%= t("footer.source") %></a>
 
       <span class="site-footer__auth">
         <% if authenticated? %>
-          <%= link_to "My page", user_path(Current.user) %>
+          <%= link_to t("footer.my_page"), user_path(Current.user) %>
           <span aria-hidden="true">·</span>
-          <%= button_to "Sign out", session_path, method: :delete, class: "site-footer__signout" %>
+          <%= button_to t("footer.sign_out"), session_path, method: :delete, class: "site-footer__signout" %>
         <% else %>
-          <%= link_to "Sign in", new_session_path %>
+          <%= link_to t("footer.sign_in"), new_session_path %>
         <% end %>
       </span>
     </footer>

@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
   resource :session, only: %i[ new create destroy ]
 
-  root "pages#home"
-  get "about", to: "pages#about"
+  # English is the default and stays unprefixed (/, /about) — only nl/de get
+  # a locale prefix, so there's never a duplicate /en URL for the same page.
+  scope "(:locale)", locale: /nl|de/ do
+    root "pages#home"
+    get "about", to: "pages#about"
+  end
+
   get "cv", to: "pages#cv"
   resources :users
 

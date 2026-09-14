@@ -38,5 +38,11 @@ module MennoCodes
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Home/About are available in English (default, unprefixed), Dutch, and
+    # German — see config/routes.rb's (:locale) scope. Everything behind
+    # auth (sign-in, /cv, /users) stays English-only for now.
+    config.i18n.available_locales = %i[ en nl de ]
+    config.i18n.default_locale = :en
   end
 end
