@@ -40,6 +40,16 @@ body {
   line-height: 1.6;
 }
 
+/* ---------- prose ----------
+ * Minimal spacing for hand-written page content — not a full .markdown-body
+ * treatment (no code blocks/tables/etc. yet), just enough that headings and
+ * paragraphs in app/views/pages/*.html.erb don't run together after the
+ * global `* { margin: 0 }` reset above. */
+main :is(h2, h3, h4) { margin: 1.5em 0 0.5em; }
+main :is(h2, h3, h4):first-child { margin-top: 0; }
+main p { margin: 0 0 1em; }
+main p:last-child { margin-bottom: 0; }
+
 /* ---------- shared layout ---------- */
 .page {
   max-width: 42rem;
