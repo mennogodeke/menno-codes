@@ -25,4 +25,23 @@ class User < ApplicationRecord
     uniqueness: true,
     format: { with: URI::MailTo::EMAIL_REGEXP },
     allow_nil: true
+
+  # has_secure_password only checks presence (on create) and the 72-byte bcrypt
+  # ceiling. Add a floor — the admin password comes straight from a secrets
+  # manager, so this only ever catches a fat-fingered dev/seed value.
+  validates :password, length: { minimum: 12 }, allow_nil: true
+
+  # First-deploy admin bootstrap: create the admin from ADMIN_USERNAME /
+  # ADMIN_PASSWORD (secrets manager -> deploy env) unless one already exists.
+  # Idempotent — safe to call on every deploy. Returns a human-readable outcome.
+  def self.bootstrap_admin_from_env
+    return "admin already present" if exists?(role: :admin)
+
+    username = ENV["ADMIN_USERNAME"].to_s.strip
+    password = ENV["ADMIN_PASSWORD"].to_s
+    return "ADMIN_USERNAME / ADMIN_PASSWORD unset — skipped" if username.empty? || password.empty?
+
+    create!(username: username, password: password, role: :admin)
+    "bootstrapped admin #{username.inspect}"
+  end
 end

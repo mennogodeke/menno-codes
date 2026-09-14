@@ -75,4 +75,53 @@ RSpec.describe User, type: :model do
       expect(User.new(username: "bob", password: "supersecret123", role: "ceo")).not_to be_valid
     end
   end
+
+  describe "password" do
+    it "rejects a password shorter than 12 characters" do
+      expect(User.new(username: "bob", password: "short")).not_to be_valid
+    end
+
+    it "doesn't re-validate length on an unchanged password" do
+      user = User.create!(username: "bob", password: "supersecret123")
+      user.username = "bobby"
+
+      expect(user).to be_valid
+    end
+  end
+
+  describe ".bootstrap_admin_from_env" do
+    around do |example|
+      original = ENV.to_h.slice("ADMIN_USERNAME", "ADMIN_PASSWORD")
+      example.run
+      ENV["ADMIN_USERNAME"] = original["ADMIN_USERNAME"]
+      ENV["ADMIN_PASSWORD"] = original["ADMIN_PASSWORD"]
+    end
+
+    it "creates an admin from ADMIN_USERNAME / ADMIN_PASSWORD" do
+      # Fixture data loaded by other spec files can leave an admin-role row
+      # sitting in the table outside the per-example transaction — force a
+      # genuinely admin-free slate so this test's precondition actually holds.
+      User.where(role: :admin).delete_all
+      ENV["ADMIN_USERNAME"] = "menno"
+      ENV["ADMIN_PASSWORD"] = "supersecret123"
+
+      expect { User.bootstrap_admin_from_env }.to change(User, :count).by(1)
+      expect(User.find_by(username: "menno")).to be_admin
+    end
+
+    it "is idempotent — does nothing if an admin already exists" do
+      User.create!(username: "existing", password: "supersecret123", role: :admin)
+      ENV["ADMIN_USERNAME"] = "menno"
+      ENV["ADMIN_PASSWORD"] = "supersecret123"
+
+      expect { User.bootstrap_admin_from_env }.not_to change(User, :count)
+    end
+
+    it "skips without raising when the env vars are unset" do
+      ENV["ADMIN_USERNAME"] = nil
+      ENV["ADMIN_PASSWORD"] = nil
+
+      expect { User.bootstrap_admin_from_env }.not_to change(User, :count)
+    end
+  end
 end
