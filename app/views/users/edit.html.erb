@@ -1,0 +1,4 @@
+<% content_for(:title, "Edit #{@user.username}") %>
+
+<h2>Edit <%= @user.username %></h2>
+<%= render "form", user: @user %>

@@ -1,0 +1,34 @@
+<%= form_with model: user do |form| %>
+  <% if user.errors.any? %>
+    <div>
+      <p><%= pluralize(user.errors.count, "error") %> prevented this user from being saved:</p>
+      <ul>
+        <% user.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>
+    <%= form.label :username %><br>
+    <%= form.text_field :username %>
+  </p>
+
+  <p>
+    <%= form.label :password, user.new_record? ? "Password" : "New password (leave blank to keep current)" %><br>
+    <%= form.password_field :password, autocomplete: "new-password" %>
+  </p>
+
+  <p>
+    <%= form.label :role %><br>
+    <%= form.select :role, User.roles.keys %>
+  </p>
+
+  <p>
+    <%= form.label :email, "Email (optional)" %><br>
+    <%= form.email_field :email %>
+  </p>
+
+  <p><%= form.submit %></p>
+<% end %>
