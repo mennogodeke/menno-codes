@@ -38,9 +38,18 @@
       <%= yield %>
     </main>
 
-    <%# TODO: auth-state footer (My page / Sign out) once /users/:id lands. %>
     <footer class="site-footer">
       <a class="site-footer__source" href="https://github.com/mennogodeke">Source</a>
+
+      <span class="site-footer__auth">
+        <% if authenticated? %>
+          <%= link_to "My page", user_path(Current.user) %>
+          <span aria-hidden="true">·</span>
+          <%= button_to "Sign out", session_path, method: :delete, class: "site-footer__signout" %>
+        <% else %>
+          <%= link_to "Sign in", new_session_path %>
+        <% end %>
+      </span>
     </footer>
   </body>
 </html>

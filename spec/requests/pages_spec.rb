@@ -36,6 +36,23 @@ RSpec.describe "Pages", type: :request do
     end
   end
 
+  describe "the footer auth links" do
+    it "shows Sign in when signed out" do
+      get root_path
+
+      expect(response.body).to include(">Sign in<")
+      expect(response.body).not_to include("Sign out")
+    end
+
+    it "shows My page / Sign out when signed in" do
+      sign_in(users(:alice))
+      get root_path
+
+      expect(response.body).to include("My page")
+      expect(response.body).to include("Sign out")
+    end
+  end
+
   describe "GET /cv" do
     it "redirects an anonymous visitor to sign in" do
       get cv_path
